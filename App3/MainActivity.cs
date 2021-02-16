@@ -23,21 +23,23 @@ namespace App3
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
             ButtonDisplay = FindViewById<Button>(Resource.Id.activity_button);
             Number = FindViewById<EditText>(Resource.Id.number);
+            NumberDisplay = FindViewById<TextView>(Resource.Id.numberdisplay);
+
             Button activity_button = FindViewById<Button>(Resource.Id.activity_button);
             activity_button.Click += Activity_button_Click;
-            NumberDisplay = FindViewById<TextView>(Resource.Id.numberdisplay);
         }
 
         private async void Start()
         {
             Button activity_button = FindViewById<Button>(Resource.Id.activity_button);
             activity_button.Enabled = false;
+
             Number.Text = "";
+
             int num;
             int sum = 0;
             for(int i = 0; i < 10; i++)
@@ -51,13 +53,13 @@ namespace App3
             }
             NumberDisplay.Text = "答えを入力してください";
             ans = sum;
+
             activity_button.Enabled = true;
         }
 
         private void Judge()
         {
-            string ansString = Number.Text;
-            if (ansString == ans.ToString())
+            if (Number.Text == ans.ToString())
             {
                 NumberDisplay.Text = "正解です";
             }
@@ -71,21 +73,14 @@ namespace App3
         {
             if (button)
             {
-                ButtonDisplay.Text = "入力";
                 Start();
-            }
-            else
-            {
-                ButtonDisplay.Text = "スタート";
-                Judge();
-            }
-
-            if (button)
-            {
                 button = false;
+                ButtonDisplay.Text = "入力";
             }
             else
             {
+                Judge();
+                ButtonDisplay.Text = "スタート";
                 button = true;
             }
         }
